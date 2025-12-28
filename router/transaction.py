@@ -52,7 +52,7 @@ async def get_transaction(id:int,db:Session=Depends(connect)):
     return transaction
 
 
-
+#its the callback that modifies the balance status of the wallet if so
 
 @transaction_router.post("/mpesa/callback")
 async def mpesa_callback(request: Request, db: Session = Depends(connect)):

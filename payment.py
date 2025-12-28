@@ -47,7 +47,7 @@ def get_stk_push(phone_number,amount):
   "PhoneNumber": phone_number,
   "TransactionDesc": "Test",
   "AccountReference": "Dhichiafis Tek System",
-  "CallBackURL": "https://fastapi-stk-push-implementation.onrender.com/transactions/mpesa/callback"
+  "CallBackURL": "https://c1a56f45326c.ngrok-free.app/transactions/mpesa/callback"
 }
     headers={
         "Content-Type": "application/json",
