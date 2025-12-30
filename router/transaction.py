@@ -48,13 +48,15 @@ async def disburse_money(
     db:Session=Depends(connect)
 ):
     new_transaction=Transaction(amount=trans.amount,description=trans.description)
-    response=disburse_payments("254721676091",10)
-    checkout_id=response.get("ConversationID")
+    
     new_transaction.type="withdrawal"
     new_transaction.status="pending"
     db.add(new_transaction)
     db.commit()
+
     db.refresh(new_transaction)
+    response=disburse_payments("254721676091",10)
+    checkout_id=response.get("ConversationID")
     if checkout_id:
         new_transaction.checkout_id=checkout_id
         db.commit()
