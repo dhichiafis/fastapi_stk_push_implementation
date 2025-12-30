@@ -56,9 +56,9 @@ async def disburse_money(
 
     db.refresh(new_transaction)
     response=disburse_payments("254721676091",10)
-    checkout_id=response.get("ConversationID")
-    if checkout_id:
-        new_transaction.checkout_id=checkout_id
+    originator_id=response.get("OriginatorConversationID")
+    if originator_id:
+        new_transaction.checkout_id=originator_id
         db.commit()
     else:
         new_transaction.status="failed"
@@ -94,7 +94,7 @@ async def process_payment_callback(request:Request,db:Session=Depends(connect)):
     print(payment_callback)
     if not payment_callback:
         return {}
-    checkout_id=payment_callback.get("ConversationID")
+    checkout_id=payment_callback.get("OriginatorConversationID")
     transaction_id=payment_callback.get('TransactionID')
     result_code=payment_callback.get('ResultCode')
     #find the transaction wit the checkout id
