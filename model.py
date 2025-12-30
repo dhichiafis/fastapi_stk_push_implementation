@@ -4,6 +4,7 @@ from database import *
 class Transaction(Base):
     __tablename__='transactions'
     id=Column('id',Integer,primary_key=True)
+    type=Column('type',String,)
     amount=Column('amount',Integer) #the daraja endpoint expects an integer datatype not float
     description=Column('description',String)
     mpesa_receipt=Column('mpesa_reciept',String,nullable=True)#these two fields are useful for audit

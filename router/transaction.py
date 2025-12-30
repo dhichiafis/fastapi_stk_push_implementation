@@ -20,6 +20,7 @@ async def create_transaction(
     transaction=Transaction(
         amount=trans.amount,
         description=trans.description,
+        type="deposit"
     )
     stk_response=get_stk_push(
         phone_number='254721676091',

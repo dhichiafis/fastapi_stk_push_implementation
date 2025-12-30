@@ -4,6 +4,7 @@ from typing import Optional,List
 class TransactionCreate(BaseModel):
     amount:int
     description:Optional[str]=None
+    type:str 
     
 
 
