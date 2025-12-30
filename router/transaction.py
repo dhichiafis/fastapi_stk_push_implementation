@@ -50,7 +50,7 @@ async def get_all_transactions(
 async def get_transaction(id:int,db:Session=Depends(connect)):
     transaction=db.query(Transaction).filter(Transaction.id==id).first()
     return transaction
-@transaction_router.post()
+#@transaction_router.post()
 async def is_transaction_successful(
     mpesa_reciept:str,
     db:Session=Depends(connect)
