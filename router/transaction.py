@@ -99,6 +99,8 @@ async def process_payment_callback(request:Request,db:Session=Depends(connect)):
     result_code=payment_callback.get('ResultCode')
     #find the transaction wit the checkout id
     transaction=db.query(Transaction).filter(Transaction.checkout_id==checkout_id).first()
+    if not transaction:
+        return {"ResultCode": 0, "ResultDesc": "Transaction not found"}
     if result_code==0:
         transaction.status="successful"
         transaction.receipt=transaction_id
