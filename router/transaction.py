@@ -41,6 +41,20 @@ async def create_transaction(
         print("STK push failed:", stk_response)
     return transaction
 
+
+@transaction_router.post('/disburse',response_model=TransactionBase)
+async def disburse_money(
+    trans:TransactionCreate,
+    db:Session=Depends(connect)
+):
+    new_transaction=Transaction(amount=trans.amount,description=trans.description)
+    
+    new_transaction.type="withdrawal"
+    new_transaction.status="pending"
+    db.add(new_transaction)
+    db.commit()
+    db.refresh(new_transaction)
+    return new_transaction
 @transaction_router.get('/all',response_model=List[TransactionBase])
 async def get_all_transactions(
     db:Session=Depends(connect)

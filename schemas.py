@@ -4,7 +4,7 @@ from typing import Optional,List
 class TransactionCreate(BaseModel):
     amount:int
     description:Optional[str]=None
-    type:str 
+    
     
 
 
@@ -12,6 +12,7 @@ class TransactionBase(TransactionCreate):
     id:int 
     status:str 
     create_at:datetime
+    type:str 
     mpesa_receipt:Optional[str]=None
     checkout_id:Optional[str]=None
     model_config=ConfigDict(from_attributes=True)
