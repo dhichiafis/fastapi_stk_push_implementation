@@ -48,12 +48,20 @@ async def disburse_money(
     db:Session=Depends(connect)
 ):
     new_transaction=Transaction(amount=trans.amount,description=trans.description)
-    
+    response=disburse_payments("254721676091",10)
+    checkout_id=response.get("ConversationID")
     new_transaction.type="withdrawal"
     new_transaction.status="pending"
     db.add(new_transaction)
     db.commit()
     db.refresh(new_transaction)
+    if checkout_id:
+        new_transaction.checkout_id=checkout_id
+        db.commit()
+    else:
+        new_transaction.status="failed"
+        db.commit()
+        print('disbursal failed',response)
     return new_transaction
 @transaction_router.get('/all',response_model=List[TransactionBase])
 async def get_all_transactions(
@@ -77,9 +85,24 @@ async def is_transaction_successful(
 
 #its the callback that modifies the balance status of the wallet if so
 @transaction_router.post('/payment/callback')
-async def payment_callback(request:Request,db:Session=Depends(connect)):
-    pass
+async def process_payment_callback(request:Request,db:Session=Depends(connect)):
+    payload=await request.json()
+    payment_callback=payload.get("Result")
 
+    print(payment_callback)
+    if not payment_callback:
+        return {}
+    checkout_id=payment_callback.get("ConversationID")
+    transaction_id=payment_callback.get('TransactionID')
+    result_code=payment_callback.get('ResultCode')
+    #find the transaction wit the checkout id
+    transaction=db.query(Transaction).filter(Transaction.checkout_id==checkout_id).first()
+    if result_code==0:
+        transaction.status="successful"
+        transaction.receipt=transaction_id
+    else:
+        transaction.status="failed"
+    db.commit()
 
 @transaction_router.post("/mpesa/callback")
 async def mpesa_callback(request: Request, db: Session = Depends(connect)):
@@ -90,6 +113,7 @@ async def mpesa_callback(request: Request, db: Session = Depends(connect)):
     payload = await request.json()
     print("MPESA CALLBACK RECEIVED:")
     print(payload)
+
 
     # Extract the stkCallback safely
     stk_callback = payload.get("Body", {}).get("stkCallback")

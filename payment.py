@@ -67,19 +67,23 @@ def get_stk_push(phone_number,amount):
     )
     return response.json()
 
-def disburse_payments():
-    url="https://sandbox.safaricom.co.ke/mpesa/b2c/v3/paymentrequest"
+def disburse_payments(phone_number,amount):
+    #url="https://sandbox.safaricom.co.ke/mpesa/b2c/v3/paymentrequest"
+    #replace with live url
+    url="https://api.safaricom.co.ke/mpesa/b2c/v1/paymentrequest"
+    #replace with live shortcode
+    shortcode="4002159"
     body={
         "OriginatorConversationID": "a6351cf491ef493c831d82e337d4e2b4", 
-    "InitiatorName": "testapi", 
-    "SecurityCredential": "B1cG2LCdUt/BU0e7RzGmuR+0Nn7KWWd0gwQrjk8hcDBGfr/io0aDLwf7JdOL1yRROunYXAfoLIRtNnT8zbf2LT26TxqaaQpObXv0VgnhJRw8zjmnYB+YxJM9aC8voGpClMIjc7EfiuUK5YaoGTcWCjMOvQPpAOsHUCC47ioWWssklZqBwgAw5dXLoV+spCMWi+sSHToJ71FpXEbTWmxBh+G1IJoo1VvNErkPQ4wIyNkeiCr6rZMMwgN/Rqy65IYTziZMwzm/sl1bpiARCH+CQRSXOiaqWjOyxpo951gOSMNnD9xMDiYcrDrViXfl/5QDHOa1iyxoYZLc6BJIJT0qXw==", 
+    "InitiatorName": "TOchieng", 
+    "SecurityCredential": "Fsg6mjxypAapmfDftSQce8Rqx1SbgWLAQtNqc5raZ7PS2WVF7kZ7TWZ96sza0rrYaXIAGys3K7MfaRqy/zLTzcJnVmzqpqSJuKnpJ8wbDXfWLCFW+4xYYaRRCPNp4vhuCCKfOzQxEPfQS53tvucvCvSSklcd9OePxu7ruUAZ/A1K8w4HmvNUsJgBZ2fGp4uxbVvDQWIPsrd+vjx9lXsA/MZJxZULunbPeh6Mu3tv8XrjgFy0fZdKJCzzyR/L407oEAY5EdkT3N2trX40+04/f6yYs8DsYUVgV7oUjTwUNC6X2/bU1jNJykmy87w2UriCPFVDi6seaixkQDLuQGwmqw==", 
     "CommandID": "BusinessPayment", 
-    "Amount": "10", 
-    "PartyA": "600979", 
-    "PartyB": "254708374149", 
+    "Amount": int(amount), 
+    "PartyA": shortcode, 
+    "PartyB": phone_number, 
     "Remarks": "remarked", 
     "QueueTimeOutURL": "https://mydomain.com/path", 
-    "ResultURL": "https://mydomain.com/path", 
+    "ResultURL": "https://fastapi-stk-push-implementation.onrender.com/transactions/payment/callback", 
     "Occassion": "ChristmasPay" 
     }
     token=get_access_token()
@@ -98,7 +102,7 @@ def disburse_payments():
     else:
         print('faild to post')
 
-disburse_payments()
+disburse_payments(254721676091,10)
 #disburse_payments("254708374149")
 
 def get_transaction_status(transaction_id):
