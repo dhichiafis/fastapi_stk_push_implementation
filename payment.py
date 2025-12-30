@@ -9,7 +9,7 @@ def get_access_token():
     #CONSUMER_KEY="kYrR8xjbpOa5XjRLuChNmcYaK8SEXzj2tyqaAV1mRc1ZtQvw"
     #CONSUMER_SECRET="XgXv9N8IF6pCjSCmtKFegYPDfxIcHWo8lZdRJNuf0jUExSAJsbOKtoSvAC9G9JhI"
     #replaced with live mpesa details 
-    url="https://api.safaricom.co.ke/oauth/v1/generate"
+    url="https://api.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials"
     CONSUMER_KEY="dvK5OJjyrB72m5OQTLPIlva150Pn7zw0hZNCFZXhpA5tKZLF"
     CONSUMER_SECRET="r8yjL9yLCjVU6ftDGHzRHrDfPW5jlKYVfPCyANoaCAyazx38oczdi9xh3GtYWgVd"
     basic=HTTPBasicAuth(CONSUMER_KEY,CONSUMER_SECRET)
@@ -24,7 +24,7 @@ def get_access_token():
     else:
         return {'message':'failed to get the token'}
 
-
+print(get_access_token())
 def get_stk_push(phone_number,amount):
 
     token=get_access_token()
