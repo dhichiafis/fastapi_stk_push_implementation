@@ -11,5 +11,6 @@ class TransactionBase(TransactionCreate):
     id:int 
     status:str 
     create_at:datetime
+    mpesa_receipt:Optional[str]=None
     checkout_id:Optional[str]=None
     model_config=ConfigDict(from_attributes=True)

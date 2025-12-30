@@ -6,6 +6,7 @@ class Transaction(Base):
     id=Column('id',Integer,primary_key=True)
     amount=Column('amount',Integer) #the daraja endpoint expects an integer datatype not float
     description=Column('description',String)
+    mpesa_receipt=Column('mpesa_reciept',String,nullable=True)#these two fields are useful for audit
     checkout_id=Column('checkout_id',String,nullable=True)#now the transaction is asynchronous the user has not enter pin so we have to wait 
     status=Column('status',String)#pending,approved,failed ,successful
     create_at=Column('create_at',DateTime,default=datetime.now)

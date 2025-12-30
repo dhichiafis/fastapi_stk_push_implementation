@@ -50,9 +50,20 @@ async def get_all_transactions(
 async def get_transaction(id:int,db:Session=Depends(connect)):
     transaction=db.query(Transaction).filter(Transaction.id==id).first()
     return transaction
+@transaction_router.post()
+async def is_transaction_successful(
+    mpesa_reciept:str,
+    db:Session=Depends(connect)
+):
+    
+    transaction=db.query(Transaction).filter(Transaction.mpesa_reciept==mpesa_reciept).first()
 
 
 #its the callback that modifies the balance status of the wallet if so
+@transaction_router.post('/payment/callback')
+async def payment_callback(request:Request,db:Session=Depends(connect)):
+    pass
+
 
 @transaction_router.post("/mpesa/callback")
 async def mpesa_callback(request: Request, db: Session = Depends(connect)):
