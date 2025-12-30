@@ -33,7 +33,8 @@ def get_stk_push(phone_number,amount):
     timestampe=timestamp.strftime('%Y%m%d%H%M%S')
     #print(timestampe)
 
-    passkey="bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
+    #passkey="bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919"
+    passkey="b810df7928546cff0698cf6a80b44506048799fa64e96645ef7cf925f4ca35c7"
     shortcode="4002159"
     data=shortcode+passkey+timestampe
     
